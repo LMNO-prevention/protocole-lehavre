@@ -1,7 +1,7 @@
 // Service worker : l'application s'ouvre même sans réseau.
 // Changer VERSION à chaque mise à jour des fichiers pour que les tablettes rechargent la nouvelle version.
-var VERSION = 'protocole-v2';
-var FILES = ['./', 'index.html', 'config.js', 'plan.jpg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png'];
+var VERSION = 'protocole-v3';
+var FILES = ['./', 'index.html', 'config.js', 'plan.jpg', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
