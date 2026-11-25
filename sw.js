@@ -1,5 +1,5 @@
 // Fait uniquement ouvrir l'icône sans réseau (écran de lancement). L'application elle-même reste sur Apps Script.
-var VERSION = 'protocole-lanceur-v5';
+var VERSION = 'protocole-lanceur-v6';
 var FILES = ['./', 'index.html', 'config.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
