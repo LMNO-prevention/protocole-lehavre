@@ -52,8 +52,12 @@ button{font:inherit;font-weight:700;font-size:21px;padding:14px 34px;border:0;bo
     box.innerHTML = '<p>Ouverture… / Opening…</p>';
     setTimeout(function () { location.replace(URL_ + (URL_.indexOf('?') < 0 ? '?' : '&') + 'k=' + encodeURIComponent(key)); }, 400);
   }
-  window.addEventListener('online', function () { if (key) go(); });
-  go();
+  var INSTALL = !!q.get('install');
+  window.addEventListener('online', function () { if (key && !INSTALL) go(); });
+  if (INSTALL) {
+    box.innerHTML = '<p>Pour installer l’application : menu <b>⋮</b> de Chrome, puis <b>« Installer l’application »</b> (ou « Ajouter à l’écran d’accueil »).<br>To install: Chrome menu <b>⋮</b>, then <b>“Install app”</b>.</p><button id="o">Ouvrir l’application / Open</button>';
+    document.getElementById('o').onclick = function () { INSTALL = false; go(); };
+  } else go();
 })();
 </script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});</script>
