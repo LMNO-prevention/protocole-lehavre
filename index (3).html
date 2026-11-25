@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Protocole Le Havre">
+<meta name="theme-color" content="#62bb46">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Protocole de sécurité – Le Havre</title>
+<style>
+html,body{margin:0;height:100%;background:#62bb46;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+img{width:150px;height:150px;border-radius:32px;box-shadow:0 6px 24px #0004;margin-bottom:22px}
+h1{font-size:26px;margin:0 0 8px}
+p{font-size:19px;margin:6px 0;max-width:520px;line-height:1.35}
+input{font:inherit;font-size:24px;padding:14px 16px;border:0;border-radius:12px;width:min(360px,80vw);margin-top:14px;text-align:center}
+button{font:inherit;font-weight:700;font-size:21px;padding:14px 34px;border:0;border-radius:12px;background:#fff;color:#2d6a1c;margin-top:16px;min-height:56px}
+#msg{min-height:26px;font-weight:700}
+</style>
+</head>
+<body>
+<img src="icon-512.png" alt="">
+<h1>Protocole de sécurité · Le Havre</h1>
+<div id="box"><p>Ouverture… / Opening…</p></div>
+<script src="config.js"></script>
+<script>
+(function () {
+  var box = document.getElementById('box'), URL_ = window.PROTOCOLE_URL;
+  var q = new URLSearchParams(location.search);
+  if (q.get('reset')) { try { localStorage.removeItem('lh_key'); } catch (e) {} }
+  var key = ''; try { key = localStorage.getItem('lh_key') || ''; } catch (e) {}
+  if (q.get('k')) { key = q.get('k'); try { localStorage.setItem('lh_key', key); } catch (e) {} history.replaceState(null, '', location.pathname); }
+  function ask(msg) {
+    box.innerHTML = '<p>Saisissez la clé d’accès (une seule fois sur cette tablette)<br>Enter the access key (once on this tablet)</p>' +
+      '<input id="k" type="password" autocomplete="off" autocapitalize="none" placeholder="Clé / Key"><br><button id="ok">Valider</button><p id="msg">' + (msg || '') + '</p>';
+    document.getElementById('ok').onclick = function () {
+      var v = document.getElementById('k').value.trim(); if (!v) return;
+      try { localStorage.setItem('lh_key', v); } catch (e) {} key = v; go();
+    };
+  }
+  function go() {
+    if (!key) return ask();
+    if (!URL_ || /COLLER_ICI/.test(URL_)) { box.innerHTML = '<p>Adresse du serveur non configurée (config.js).</p>'; return; }
+    if (navigator.onLine === false) {
+      box.innerHTML = '<p>Pas de réseau : reconnectez le wifi puis touchez « Réessayer ».<br>No network: reconnect the wifi, then tap “Retry”.</p><button id="r">Réessayer / Retry</button>';
+      document.getElementById('r').onclick = go; return;
+    }
+    box.innerHTML = '<p>Ouverture… / Opening…</p>';
+    setTimeout(function () { location.replace(URL_ + (URL_.indexOf('?') < 0 ? '?' : '&') + 'k=' + encodeURIComponent(key)); }, 400);
+  }
+  window.addEventListener('online', function () { if (key) go(); });
+  go();
+})();
+</script>
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});</script>
+</body>
+</html>

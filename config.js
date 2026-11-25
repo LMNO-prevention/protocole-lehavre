@@ -1,3 +1,3 @@
-// Adresse du serveur Apps Script (déploiement « Application Web », se termine par /exec).
-// Remplacez-la ici si vous redéployez avec une nouvelle adresse.
-window.PROTOCOLE_API = "window.PROTOCOLE_API = "https://script.google.com/macros/s/AKfycbxVx0-Uh0VumKUVrcwJjKqur39lMwqM0uqkwlWSJqYFo44BHxeBMUrae85Byq2vAy5g/exec";"
+// Adresse de l'application Apps Script (déploiement « Application Web », se termine par /exec), SANS la clé.
+// La clé d'accès est saisie une seule fois sur la tablette.
+window.PROTOCOLE_URL = "https://script.google.com/a/macros/leroymerlin.fr/s/AKfycbxVx0-Uh0VumKUVrcwJjKqur39lMwqM0uqkwlWSJqYFo44BHxeBMUrae85Byq2vAy5g/exec";
